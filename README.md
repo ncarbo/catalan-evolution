@@ -2,17 +2,17 @@
 
 A reproducible NLP and data-analysis pipeline for studying diachronic change in written Catalan between 1832 and 1949.
 
-The project combines a historical corpus derived primarily from the CTILC (Corpus Textual Informatitzat de la Llengua Catalana), developed by the Institut d’Estudis Catalans, with additional historical texts from the Dipòsit Digital de Documents de la Universitat Autònoma de Barcelona. It extracts orthographic and lexical features and analyzes their evolution over time through trend estimation, persistence analysis, changepoint detection, linguistic oppositions, and robustness checks.
+The project combines a historical corpus extracted primarily from the CTILC (Corpus Textual Informatitzat de la Llengua Catalana), developed by the Institut d’Estudis Catalans, with additional texts from the Dipòsit Digital de Documents de la Universitat Autònoma de Barcelona. It extracts orthographic and lexical features and analyzes their evolution over time through trend estimation, persistence analysis, changepoint detection, linguistic oppositions, and robustness checks.
 
-## Research question
+## Initial question
 
-How did major orthographic conventions in written Catalan evolve between 1830 and 1950, particularly around the Fabrian standardization of the 1910s, and how robust are the observed changes to corpus composition?
+How did major orthographic conventions in written Catalan evolve between 1830 and 1950, particularly around the Fabrian standardization of the 1910s?
 
 ## Corpus
 
 The corpus covers written Catalan from 1832 to 1949 and consists primarily of texts from the CTILC supplemented by a smaller number of external sources, mainly the magazines Ariel and Ressorgiment. These external texts were added to improve temporal coverage, particularly because of the limited number of documents available for the 1940s in the CTILC source
 
-Each document is associated with metadata such as:
+Each document is associated with metadata:
 
 - year
 - source
@@ -21,11 +21,7 @@ Each document is associated with metadata such as:
 - translation status
 - document length
 
-The analytical corpus is built from processed text files and converted into document-level linguistic features.
-
-One document was excluded from the analytical metadata because it represented approximately 70% of the total word count of the 1860–1864 period, creating extreme single-document dominance.
-
-The excluded document was `002982_La_orfaneta_de_Menargues_o_Catalunya_ago.out.txt`.
+One document was excluded from the analytical metadata because it represented approximately 70% of the total word count of the 1860–1864 period, creating extreme single-document dominance. The excluded document was `002982_La_orfaneta_de_Menargues_o_Catalunya_ago.out.txt`.
 
 ## Methodology
 
@@ -58,21 +54,8 @@ The project generates:
 
 The main generated datasets and analysis outputs are stored under `data/aggregated/` and `results/`.
 
-## Robustness and limitations
 
-The main temporal analyses are based on corpus-level frequencies, meaning that longer documents have greater influence on the aggregated values.
-
-To assess the effect of unequal document lengths, robustness checks compare corpus-level frequencies with mean and median document-level frequencies and examine the contribution of the largest document in each period.
-
-The corpus also varies in the number and length of documents available across time periods. External texts were added to improve coverage in underrepresented periods, especially during the 1940s.
-
-The current changepoint analysis should be interpreted as exploratory, since it uses a simple two-segment regression approach rather than a fully probabilistic or penalized change-point model.
-
-## Data availability
-
-Since the corpus is relatively large, consisting of over a thousand documents and more than 12 million words, the full raw and processed text corpus is not redistributed in this repository.
-
-The repository instead contains the code, metadata, extracted features, aggregated datasets and analysis outputs needed to inspect and reproduce the analytical workflow.
+## Data extraction
 
 Publicly available CTILC texts can be retrieved using:
 
@@ -84,21 +67,17 @@ python3 scripts/download_all_ctilc.py
 
 Several extensions are planned for a future version of the project:
 
-- **Document-level weighting as the main analytical unit**  
+- **Document-level weighting**  
 
-  The current analysis primarily relies on corpus-level frequencies, so longer documents have greater influence. A future version could use mean document-level frequencies as the main indicator, giving each document equal weight and reducing sensitivity to highly unequal document lengths.
+  The current analysis  relies on corpus-level frequencies, so longer documents may have greater influence. A future version could use mean document-level frequencies as the main indicator, giving each document equal weight and reducing impact of highly unequal document lengths.
 
 - **Pre/post period prediction**  
 
-  Train an interpretable classifier, such as logistic regression, to predict whether a document belongs to an earlier or later historical period based on its linguistic features. This would help identify which features are most informative of temporal change.
-
-- **Linguistic representation and temporal PCA / clustering**  
-
-  Represent documents or time periods as multidimensional linguistic feature vectors and use dimensionality-reduction methods such as PCA to study broader temporal trajectories. Clustering could also be used to detect groups of periods with similar linguistic profiles.
+  Train an interpretable classifier, such as logistic regression, to predict whether a document belongs to an earlier or later historical period based on its linguistic features.
 
 - **More rigorous change-point detection**  
 
-  Replace the current exploratory two-segment regression approach with a statistically stronger change-point framework. Possible extensions include penalized segmentation, model-selection criteria such as AIC/BIC or probabilistic/Bayesian change-point models.
+  Replace the current exploratory two-segment regression approach with a statistically stronger change-point. Possible extensions include penalized segmentation, model-selection criteria such as AIC/BIC or probabilistic/Bayesian change-point models.
 
 - **Probabilistic modelling of diachronic change**  
 
